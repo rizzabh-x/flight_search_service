@@ -5,6 +5,7 @@ const {PORT} = require('./config/serverConfig');
 const ApiRoutes = require('./routes/index');
 
 const db = require('./models/index');
+const {Airplane} = require('./models/index');
 
 const setupandStartServer = async () => {
 
@@ -15,12 +16,15 @@ const setupandStartServer = async () => {
 
     app.use('/api', ApiRoutes);
 
-    app.listen(PORT, () => {
+    app.listen(PORT, async () => {
         console.log(`server started at ${PORT}`);
         if(process.env.SYNC_DB){
             db.sequelize.sync({alter: true});
 
         }
+        await Airplane.create({
+            modelNumber: 'Learjet 23'
+        });
     });
 
 }
