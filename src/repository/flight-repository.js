@@ -3,6 +3,8 @@ const {Flights} = require('../models/index')
 
 class FlightRepository {
 
+    
+    // # is used for private class method or function
     #createFilter(data){
         let filter = {};
         if(data.arrivalAirportId){
@@ -59,6 +61,20 @@ class FlightRepository {
                 where: filterObject
             });
             return flight;
+        } catch (error) {
+            console.log("Something went wrong in repository layer");
+            throw {error};
+        }
+    }
+
+    async updateflight(flightId, data){
+        try {
+            await Flights.update(data,{
+                where : {
+                    id: flightId
+                }
+            });
+            return true;
         } catch (error) {
             console.log("Something went wrong in repository layer");
             throw {error};
